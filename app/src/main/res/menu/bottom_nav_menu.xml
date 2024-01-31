@@ -6,6 +6,7 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
+    <!--
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
@@ -15,5 +16,26 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />
+        -->
+
+    <item
+        android:icon="@drawable/classes_icon"
+        android:title="@string/classes_navigation"/>
+
+    <item
+        android:icon="@drawable/assignment_icon"
+        android:title="@string/assignments_navigation"/>
+
+    <item
+        android:icon="@drawable/exam_icon"
+        android:title="@string/exams_navigation"/>
+
+    <item
+        android:icon="@drawable/todo_icon"
+        android:title="@string/todo_navigation"/>
+
+
+
+
 
 </menu>
