@@ -9,11 +9,18 @@ import androidx.room.PrimaryKey;
 public class User {
     @PrimaryKey
     @NonNull
-    public String username;
-    public String password;
+    private String username;
+    private String password;
 
     public User(@NonNull String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public String getUsername() {
+        return username;
     }
 }

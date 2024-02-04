@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.collegescheduler.db.entities.Assignment;
@@ -82,5 +83,10 @@ public class SharedViewModel extends AndroidViewModel {
         courseRepository.deleteCourse(course);
     }
 
-
+    public LiveData<User> getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+    public void insertUser(User user) {
+        userRepository.insertUser(user);
+    }
 }

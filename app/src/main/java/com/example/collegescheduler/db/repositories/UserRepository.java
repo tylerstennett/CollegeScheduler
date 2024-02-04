@@ -2,6 +2,8 @@ package com.example.collegescheduler.db.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.collegescheduler.db.AppDatabase;
 import com.example.collegescheduler.db.dao.UserDao;
 import com.example.collegescheduler.db.entities.User;
@@ -23,7 +25,7 @@ public class UserRepository {
         executorService.execute(() -> userDao.insertUser(user));
     }
 
-    public User getUserByUsername(String username) {
+    public LiveData<User> getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
 

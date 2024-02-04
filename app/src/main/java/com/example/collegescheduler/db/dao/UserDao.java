@@ -1,5 +1,6 @@
 package com.example.collegescheduler.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -12,6 +13,6 @@ public interface UserDao {
     long insertUser(User user);
 
     @Query("SELECT * FROM user WHERE username = :username")
-    User getUserByUsername(String username);
+    LiveData<User> getUserByUsername(String username);
 
 }
