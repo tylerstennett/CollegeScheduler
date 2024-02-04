@@ -22,8 +22,6 @@ public class CustomAdapter extends ArrayAdapter<String> {
 
     private ArrayList<String> taskList;
 
-
-
     public CustomAdapter(Context context, int resource, List<String> objects, ArrayList<String> taskList) {
         super(context, resource, objects);
         this.taskList = taskList;
