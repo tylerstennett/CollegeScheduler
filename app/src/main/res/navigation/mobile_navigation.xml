@@ -28,6 +28,17 @@
         android:name="com.example.collegescheduler.ui.examlist.ExamListFragment"
         android:label="@string/exams_navigation"
         tools:layout="@layout/fragment_exam_list" />
+  
+   <fragment
+        android:id="@+id/assignmentsID"
+        android:name="com.example.collegescheduler.ui.assignments.AssignmentsFragment"
+        android:label="@string/assignments_navigation"
+        tools:layout="@layout/fragment_assignments" />
 
+    <fragment
+        android:id="@+id/todolistID"
+        android:name="com.example.collegescheduler.ui.todolist.ToDoListFragment"
+        android:label="@string/todo_navigation"
+        tools:layout="@layout/fragment_todolist" />
 
 </navigation>

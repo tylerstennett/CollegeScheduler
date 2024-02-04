@@ -23,6 +23,7 @@
         android:title="@string/classes_navigation"/>
 
     <item
+        android:id="@+id/assignmentsID"
         android:icon="@drawable/assignment_icon"
         android:title="@string/assignments_navigation"/>
 
@@ -32,6 +33,7 @@
         android:title="@string/exams_navigation"/>
 
     <item
+        android:id="@+id/todolistID"
         android:icon="@drawable/todo_icon"
         android:title="@string/todo_navigation"/>
 
