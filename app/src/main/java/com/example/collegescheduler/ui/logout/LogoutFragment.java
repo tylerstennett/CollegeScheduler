@@ -56,9 +56,6 @@ public class LogoutFragment extends Fragment {
         welcomeHeader = view.findViewById(R.id.welcome_header);
         Button logoutButton = view.findViewById(R.id.logout_button);
 
-        //sharedViewModel.getUsernameData().observe(getViewLifecycleOwner(), this::assignWelcomeHeader);
-        //String username = sharedViewModel.getUsernameData().getValue();
-        //assignWelcomeHeader(username);
         sharedViewModel.getUsernameData().observe(getViewLifecycleOwner(), username -> {
             if (username != null) {
                 assignWelcomeHeader(username);

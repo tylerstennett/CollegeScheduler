@@ -6,18 +6,6 @@
     app:startDestination="@+id/logout_and_home">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.collegescheduler.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.collegescheduler.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/logout_and_home"
         android:name="com.example.collegescheduler.ui.logout.LogoutFragment"
         android:label="@string/logout_navigation"
