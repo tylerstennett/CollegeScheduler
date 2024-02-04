@@ -12,16 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Exam;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExamListFragment extends Fragment {
+    private SharedViewModel sharedViewModel;
+    private String username;
 
     private EditText editTextExamName;
     private EditText editTextDate;
@@ -38,9 +42,22 @@ public class ExamListFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exam_list, container, false);
+        return inflater.inflate(R.layout.fragment_exam_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        this.username = sharedViewModel.getUsernameData().getValue();
 
         // init views
         editTextExamName = view.findViewById(R.id.editTextExamName);
@@ -60,14 +77,26 @@ public class ExamListFragment extends Fragment {
         recyclerViewExams.setAdapter(examListAdapter);
 
         Button addButton = view.findViewById(R.id.addButton);
+
+        sharedViewModel.getExamsByUsername(this.username).observe(getViewLifecycleOwner(), exams -> {
+            if (exams != null) {
+                for (Exam exam : exams) {
+                    list.clear();
+                    examListAdapter.addItem(exam);
+                }
+            }
+        });
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onAddButtonClick();
             }
         });
+    }
 
-        return view;
+    private void addExamToDatabase(Exam exam) {
+        sharedViewModel.insertExam(exam);
     }
 
     public void onAddButtonClick() {
@@ -81,10 +110,11 @@ public class ExamListFragment extends Fragment {
         // create new exam card
         // View examView = createExamView(examName, examDate, examTime, examLocation, examClassName);
 
-        Exam exam = new Exam("", examName, examDate, examClassName, examTime, examLocation);
+        Exam exam = new Exam(this.username, examName, examDate, examClassName, examTime, examLocation);
+        this.addExamToDatabase(exam);
 
         // recyclerViewExams.addView(examView);
-        examListAdapter.addItem(exam);
+        //examListAdapter.addItem(exam);
 
         // clear input fields
         editTextExamName.getText().clear();

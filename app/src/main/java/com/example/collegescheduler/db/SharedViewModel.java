@@ -85,6 +85,15 @@ public class SharedViewModel extends AndroidViewModel {
         courseRepository.deleteCourse(course);
     }
 
+    // functions for exams
+    public LiveData<List<Exam>> getExamsByUsername(String username) {
+        return examRepository.getExamsByUsername(username);
+    }
+    public void insertExam(Exam exam) {
+        examRepository.insertExam(exam).thenAccept(insertExamId::postValue);
+    }
+
+    // functions for user
     public LiveData<User> getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }
