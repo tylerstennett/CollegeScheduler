@@ -23,7 +23,7 @@
         android:title="@string/classes_navigation"/>
 
     <item
-        android:id="@+id/assignmentsID"
+        android:id="@+id/assignmentTitle"
         android:icon="@drawable/assignment_icon"
         android:title="@string/assignments_navigation"/>
 

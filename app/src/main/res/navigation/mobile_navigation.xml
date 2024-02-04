@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/assignmentsID"
+        android:id="@+id/assignmentTitle"
         android:name="com.example.collegescheduler.ui.assignments.AssignmentsFragment"
         android:label="@string/assignments_navigation"
         tools:layout="@layout/fragment_assignments" />
@@ -34,6 +34,5 @@
         android:name="com.example.collegescheduler.ui.todolist.ToDoListFragment"
         android:label="@string/todo_navigation"
         tools:layout="@layout/fragment_todolist" />
-
 
 </navigation>

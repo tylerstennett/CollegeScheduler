@@ -8,74 +8,73 @@
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp">
 
-    <!-- Column 1: Title -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="0dp"
+    <CheckBox
+        android:id="@+id/checkBoxTask"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDueDate"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Column 2: Due Date -->
     <TextView
         android:id="@+id/textViewDueDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Due Date"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Due Date: "
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textViewTitle"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxTask"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textViewAssociatedClass"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintBottom_toTopOf="@+id/textViewAssignment" />
 
-    <!-- Column 3: Associated Class -->
     <TextView
-        android:id="@+id/textViewAssociatedClass"
+        android:id="@+id/textViewAssignment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Associated Class"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Assignment: "
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textViewDueDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonEditTask"
-        android:layout_marginEnd="8dp"/>
+        app:layout_constraintStart_toEndOf="@+id/checkBoxTask"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDueDate"
+        app:layout_constraintBottom_toTopOf="@+id/textViewClassName" />
 
-    <!-- Edit Button -->
-
-    <!-- Delete Button -->
+    <TextView
+        android:id="@+id/textViewClassName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="Class Name: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxTask"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAssignment"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/buttonDeleteTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="16dp"
         android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewAssociatedClass"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditTask" />
 
     <Button
         android:id="@+id/buttonEditTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="7dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Edit"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteTask"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewAssociatedClass"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

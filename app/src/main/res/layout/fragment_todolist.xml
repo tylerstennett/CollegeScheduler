@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,63 +18,74 @@
     <!-- Task Detail Section -->
 
     <TextView
-        android:id="@+id/assignmentsID"
+        android:id="@+id/assignmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/toDoListID"
         android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTask"
+        app:layout_constraintBottom_toTopOf="@+id/editDueDate"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTask"
+        android:id="@+id/editDueDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your task"
+        android:hint="Due Date"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTaskDetail"
+        app:layout_constraintBottom_toTopOf="@+id/editTextClassName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assignmentsID" />
+        app:layout_constraintTop_toBottomOf="@+id/assignmentTitle" />
 
 
     <Button
         android:id="@+id/buttonAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:text="Add Task"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTaskDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextClassName" />
 
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonAddTask"
+        app:layout_constraintTop_toTopOf="@+id/buttonAddTask" />
 
     <ListView
-        android:id="@+id/listViewTasks"
+        android:id="@+id/assignmentListSection"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddTask"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddTask" />
 
     <EditText
-        android:id="@+id/editTextTaskDetail"
+        android:id="@+id/editTextClassName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="16dp"
-        android:hint="Task details"
+        android:hint="Task"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddTask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTask" />
+        app:layout_constraintTop_toBottomOf="@+id/editDueDate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
