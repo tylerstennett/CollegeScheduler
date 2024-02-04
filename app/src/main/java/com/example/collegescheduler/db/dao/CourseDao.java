@@ -25,4 +25,8 @@ public interface CourseDao {
 
     @Query("SELECT * FROM course WHERE username = :username")
     LiveData<List<Course>> getCoursesByUsername(String username);
+
+    @Query("SELECT * FROM course WHERE courseId = :courseId")
+    LiveData<Course> getCourseById(int courseId);
+
 }

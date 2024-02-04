@@ -25,4 +25,7 @@ public interface AssignmentDao {
     @Query("SELECT * FROM assignment WHERE username = :username")
     LiveData<List<Assignment>> getAssignmentsByUsername(String username);
 
+    @Query("SELECT * FROM assignment where assignmentId = :assignmentId")
+    LiveData<Assignment> getAssignmentById(int assignmentId);
+
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.entities.Exam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ExamListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewExams.setLayoutManager(layoutManager);
 
-        list = new ArrayList<>();
+        list = new ArrayList<Exam>();
 
         examListAdapter = new ExamListAdapter(list);
         recyclerViewExams.setAdapter(examListAdapter);
@@ -80,7 +81,7 @@ public class ExamListFragment extends Fragment {
         // create new exam card
         // View examView = createExamView(examName, examDate, examTime, examLocation, examClassName);
 
-        Exam exam = new Exam(examName, examDate, examTime, examLocation, examClassName);
+        Exam exam = new Exam("", examName, examDate, examClassName, examTime, examLocation);
 
         // recyclerViewExams.addView(examView);
         examListAdapter.addItem(exam);

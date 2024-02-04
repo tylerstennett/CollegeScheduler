@@ -24,4 +24,7 @@ public interface TodoItemDao {
 
     @Query("SELECT * FROM todo_item WHERE username = :username")
     LiveData<List<TodoItem>> getTodoItemsByUsername(String username);
+
+    @Query("SELECT * FROM todo_item WHERE todoItemId = :todoItemId")
+    LiveData<TodoItem> getTodoItemById(int todoItemId);
 }

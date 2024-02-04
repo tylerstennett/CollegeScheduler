@@ -32,4 +32,5 @@ public class Exam {
         this.time = time;
         this.location = location;
     }
+
 }

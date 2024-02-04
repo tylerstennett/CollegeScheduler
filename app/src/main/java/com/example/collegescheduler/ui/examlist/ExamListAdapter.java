@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.entities.Exam;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,11 +34,11 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
     // replace contents of a view
     @Override
     public void onBindViewHolder(ExamListViewHolder viewHolder, final int position) {
-        viewHolder.examName.setText(list.get(position).name);
+        viewHolder.examName.setText(list.get(position).examName);
         viewHolder.examDate.setText(list.get(position).date);
         viewHolder.examTime.setText(list.get(position).time);
         viewHolder.examLocation.setText(list.get(position).location);
-        viewHolder.examCourse.setText(list.get(position).course);
+        viewHolder.examCourse.setText(list.get(position).courseName);
     }
 
     @Override

@@ -25,4 +25,7 @@ public interface ExamDao {
 
     @Query("SELECT * FROM exam WHERE username = :username")
     LiveData<List<Exam>> getExamsByUsername(String username);
+
+    @Query("SELECT * FROM exam WHERE examId = :examId")
+    LiveData<Exam> getExamById(int examId);
 }
