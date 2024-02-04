@@ -5,9 +5,11 @@
     <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="classes_navigation">Classes</string>
     <string name="assignments_navigation">Assignments</string>
     <string name="exams_navigation">Exams</string>
+    <string name="logout_navigation">Logout</string>
 
     <string name="exam_list_header">Exam List</string>
     <string name="class_name">Class Name</string>
@@ -25,6 +27,9 @@
     <string name="password_text">Password</string>
     <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
     <string name="enter_button">Enter</string>
+
+    <string name="welcome_header">Welcome!</string>
+    <string name="logout_button">Logout</string>
 
 
 </resources>

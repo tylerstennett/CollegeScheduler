@@ -46,7 +46,12 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         inputUsername = view.findViewById(R.id.username_input);
         inputPassword = view.findViewById(R.id.password_input);
@@ -58,8 +63,6 @@ public class LoginFragment extends Fragment {
                 loginButtonClick();
             }
         });
-
-        return view;
     }
 
     private void invalidUsernamePassword() {
@@ -71,10 +74,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void navigateToMainActivityForUser(String username) {
-        sharedViewModel.setUsernameValue(username);
         Activity activity = getActivity();
         if (activity != null) { // just quick NPE checking
             Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
             activity.finish();
         }
