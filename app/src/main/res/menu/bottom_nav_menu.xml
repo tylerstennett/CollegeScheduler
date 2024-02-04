@@ -27,6 +27,7 @@
         android:title="@string/assignments_navigation"/>
 
     <item
+        android:id="@+id/examListID"
         android:icon="@drawable/exam_icon"
         android:title="@string/exams_navigation"/>
 

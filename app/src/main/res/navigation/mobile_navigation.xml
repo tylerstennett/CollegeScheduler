@@ -23,5 +23,11 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
+    <fragment
+        android:id="@+id/examListID"
+        android:name="com.example.collegescheduler.ui.examlist.ExamListFragment"
+        android:label="@string/exams_navigation"
+        tools:layout="@layout/fragment_exam_list" />
+
 
 </navigation>

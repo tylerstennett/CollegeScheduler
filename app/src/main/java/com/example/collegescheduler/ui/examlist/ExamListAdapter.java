@@ -14,9 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamListViewHolder> {
-    List<Exam> list = Collections.emptyList();
-    // context
-    // listener
+    private List<Exam> list;
+    // listener maybe
 
     public ExamListAdapter(List<Exam> list) {
         this.list = list;
@@ -46,6 +45,11 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         return list.size();
     }
 
+    public void addItem(Exam newExam) {
+        list.add(newExam);
+        notifyItemInserted(list.size());
+    }
+
     /*
     ViewHolder that caches references to entries in RecyclerView,
     improving performance over looking up ID every time
@@ -59,7 +63,7 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         private final TextView examCourse;
         private final View view;
 
-        ExamListViewHolder (View itemView) {
+        public ExamListViewHolder (View itemView) {
             super(itemView);
 
             examName = (TextView) itemView.findViewById(R.id.examName);

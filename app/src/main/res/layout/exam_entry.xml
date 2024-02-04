@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
-    android:background="@color/cardview_dark_background">
+    android:layout_height="110dp">
 
     <TextView
         android:id="@+id/examName"
@@ -13,8 +12,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:text="Exam 1"
-        android:textColor="@color/white"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,7 +28,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:text="2/17/24"
-        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,8 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
         android:text="KACB 1443"
-        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -62,8 +63,8 @@
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
         android:text="CS 1301"
-        android:textColor="@color/white"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/examName"
@@ -75,7 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:text="10:30"
-        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/examLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/examDate" />
