@@ -20,4 +20,11 @@
     <string name="assignmentsList">Assignments List</string>
     <string name="toDoListID">To-do List</string>
 
+    <string name="login_header">Login/Register</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
+    <string name="enter_button">Enter</string>
+
+
 </resources>
