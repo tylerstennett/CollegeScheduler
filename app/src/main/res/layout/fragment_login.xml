@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/login_header"
+        android:id="@+id/welcome_header"
         android:layout_width="271dp"
         android:layout_height="58dp"
         android:layout_marginTop="156dp"
@@ -30,7 +30,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_header" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome_header" />
 
     <EditText
         android:id="@+id/password_input"

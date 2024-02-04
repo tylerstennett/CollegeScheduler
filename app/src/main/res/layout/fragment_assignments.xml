@@ -11,7 +11,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:id="@+id/assignmentsID"
+        android:id="@+id/assignments_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/assignmentsList"
@@ -77,7 +77,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/addButton"
-        app:layout_constraintTop_toBottomOf="@id/assignmentsID">
+        app:layout_constraintTop_toBottomOf="@id/assignments_list">
 
         <EditText
             android:id="@+id/editTextTitle"
