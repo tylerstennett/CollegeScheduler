@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -118,7 +119,10 @@ public class ToDoListFragment extends Fragment {
     private void addTaskToList() {
         String task = editTextTask.getText().toString();
         String taskDetail = editTextTaskDetail.getText().toString();
-
+        if (task.isEmpty() || task.isEmpty()) {
+            Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!task.isEmpty()) {
             // Add the task and task detail as a single string with Item1 and Sub Item1
             String listItem = "Task: " + task + "\nDetails: " + taskDetail;

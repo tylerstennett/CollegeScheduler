@@ -74,17 +74,11 @@ public class ToDoListAdapter extends ArrayAdapter<String> {
     }
 
     private void showEditDialog(int position) {
-        // You can create a custom dialog here
-        // Example: Create an AlertDialog with an EditText for editing
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Edit Task");
-
-        // Create an EditText to allow users to input the new details
         final EditText editText = new EditText(getContext());
         editText.setText(getItem(position)); // Pre-fill the EditText with the current task details
         builder.setView(editText);
-
-        // Set up the buttons for OK and Cancel
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

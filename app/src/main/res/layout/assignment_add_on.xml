@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
+    android:layout_marginStart="5dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="8dp">
@@ -12,10 +12,9 @@
         android:id="@+id/checkBoxComplete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewDueDate"
@@ -23,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="8dp"
-        android:text="Due Date"
-        android:textSize="13sp"
+        android:text="Due Date: "
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textViewAssociatedClass"
         app:layout_constraintEnd_toStartOf="@+id/textViewAssociatedClass"
@@ -35,8 +34,8 @@
         android:id="@+id/textViewAssociatedClass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Class"
-        android:textSize="13sp"
+        android:text="Class: "
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textViewDueDate"
         app:layout_constraintEnd_toStartOf="@+id/textViewAssignment"
@@ -49,8 +48,8 @@
         android:id="@+id/textViewAssignment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Assignment"
-        android:textSize="13sp"
+        android:text="Assignment: "
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textViewAssociatedClass"
         app:layout_constraintEnd_toStartOf="@+id/buttonEditTask"
@@ -85,6 +84,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/buttonEditTask"
         android:layout_width="wrap_content"
