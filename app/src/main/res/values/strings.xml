@@ -25,6 +25,9 @@
     <string name="password_text">Password</string>
     <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
     <string name="enter_button">Enter</string>
+    <string name="welcome_header">Welcome!</string>
+    <string name="logout_button">Logout</string>
+
 
     <string-array name="assignmentSort">
         <item>Due Date</item>
