@@ -27,6 +27,7 @@
     <string name="enter_button">Enter</string>
     <string name="welcome_header">Welcome!</string>
     <string name="logout_button">Logout</string>
+    <string name="logout_navigation">Logout</string>
 
 
     <string-array name="assignmentSort">
