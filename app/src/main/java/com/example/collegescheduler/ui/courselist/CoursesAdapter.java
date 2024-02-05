@@ -15,10 +15,12 @@ import java.util.List;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseListViewHolder> {
     private List<Course> list;
+    private EditListener editListener;
 
 
-    public CoursesAdapter(List<Course> list) {
+    public CoursesAdapter(List<Course> list, EditListener editListener) {
         this.list = list;
+        this.editListener = editListener;
     }
 
     // creates new course views
@@ -45,9 +47,17 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Course removedItem = list.get(viewHolder.getAbsoluteAdapterPosition());
                 list.remove(viewHolder.getAbsoluteAdapterPosition());
                 notifyItemRemoved(viewHolder.getAbsoluteAdapterPosition());
+            }
+        });
+
+        // set listener for edit button
+        viewHolder.courseEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getAbsoluteAdapterPosition();
+                editListener.onEditButtonClick(position);
             }
         });
     }
@@ -60,6 +70,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
     public void addItem(Course newCourse) {
         list.add(newCourse);
         notifyItemInserted(list.size());
+    }
+
+    public void editItem(Course newCourse, int position) {
+        list.set(position, newCourse);
+        notifyItemChanged(position);
     }
 
     /*
@@ -93,5 +108,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
 
             view = itemView;
         }
+    }
+
+    public interface EditListener {
+        void onEditButtonClick(int position);
     }
 }

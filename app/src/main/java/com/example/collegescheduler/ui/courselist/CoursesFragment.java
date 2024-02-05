@@ -21,10 +21,9 @@ import com.example.collegescheduler.db.entities.Course;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoursesFragment extends Fragment {
+public class CoursesFragment extends Fragment implements CoursesAdapter.EditListener {
 
     private EditText editTextCourseName;
-    // private EditText editTextDate;
     private EditText editTextTime;
     private EditText editTextLocation;
     private EditText editTextInstructor;
@@ -83,7 +82,7 @@ public class CoursesFragment extends Fragment {
 
         list = new ArrayList<Course>();
 
-        coursesAdapter = new CoursesAdapter(list);
+        coursesAdapter = new CoursesAdapter(list, this);
         recyclerViewCourses.setAdapter(coursesAdapter);
 
         Button addButton = view.findViewById(R.id.addButtonCourse);
@@ -106,6 +105,36 @@ public class CoursesFragment extends Fragment {
         String courseSection = editTextCourseSection.getText().toString();
 
         // create string for days of the week based on checkboxes
+        String courseDaysOfWeek = getDaysOfWeek();
+
+        Course course = new Course("", courseName, courseTime, courseDaysOfWeek, courseInstructor, courseSection, courseLocation);
+
+        coursesAdapter.addItem(course);
+
+        resetInputs();
+    }
+
+    public void onEditButtonClick(int position) {
+        // Get text from input fields
+        String courseName = editTextCourseName.getText().toString();
+        String courseTime = editTextTime.getText().toString();
+        String courseLocation = editTextLocation.getText().toString();
+        String courseInstructor = editTextInstructor.getText().toString();
+        String courseSection = editTextCourseSection.getText().toString();
+
+        // create string for days of the week based on checkboxes
+        String courseDaysOfWeek = getDaysOfWeek();
+
+        Course course = new Course("", courseName, courseTime, courseDaysOfWeek, courseInstructor, courseSection, courseLocation);
+
+        coursesAdapter.editItem(course, position);
+
+        resetInputs();
+    }
+
+    // helper method to create String for recurring days of the week
+    private String getDaysOfWeek() {
+
         String courseDaysOfWeek = "";
         if (mondayChecked) courseDaysOfWeek += "M ";
         if (tuesdayChecked) courseDaysOfWeek += "Tu ";
@@ -114,11 +143,10 @@ public class CoursesFragment extends Fragment {
         if (fridayChecked) courseDaysOfWeek += "F";
         courseDaysOfWeek = courseDaysOfWeek.trim();
 
-        Course course = new Course("", courseName, courseTime, courseDaysOfWeek, courseInstructor, courseSection, courseLocation);
+        return courseDaysOfWeek;
+    }
 
-        // recyclerViewCourses.addView(courseView);
-        coursesAdapter.addItem(course);
-
+    private void resetInputs() {
         // clear input fields
         editTextCourseName.getText().clear();
         editTextTime.getText().clear();
