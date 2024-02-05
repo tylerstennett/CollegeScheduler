@@ -3,6 +3,8 @@ package com.example.collegescheduler.ui.courselist;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +27,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
     public CourseListViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new course view
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.course_entry, viewGroup, false);
+
+        // Instantiate ViewHolder with newly created course view
+        CourseListViewHolder viewHolder = new CourseListViewHolder(view);
+
+        // set listeners for edit and delete buttons
+        viewHolder.courseDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         // return ViewHolder with new CourseView
-        return new CourseListViewHolder(view);
+        return viewHolder;
     }
 
     // replace contents of a view
@@ -62,6 +76,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         private final TextView courseLocation;
         private final TextView courseInstructor;
         private final TextView courseSection;
+        private final ImageButton courseDelete;
+        private final ImageButton courseEdit;
         private final View view;
 
         public CourseListViewHolder(View itemView) {
@@ -73,6 +89,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
             courseLocation = (TextView) itemView.findViewById(R.id.courseLocation);
             courseInstructor = (TextView) itemView.findViewById(R.id.courseInstructor);
             courseSection = (TextView) itemView.findViewById(R.id.courseSection);
+
+            courseDelete = itemView.findViewById(R.id.buttonCourseDelete);
+            courseEdit = itemView.findViewById(R.id.buttonCourseEdit);
 
             view = itemView;
         }
