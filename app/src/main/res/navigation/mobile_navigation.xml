@@ -8,11 +8,8 @@
     <fragment
         android:id="@+id/logout_and_home"
         android:name="com.example.collegescheduler.ui.logout.LogoutFragment"
-        android:label="@string/logout_navigation"
-        tools:layout="@layout/fragment_logout" />
 
-    <fragment
-        android:id="@+id/class_list"/>
+        tools:layout="@layout/fragment_logout" />
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -21,13 +18,13 @@
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
-        android:id="@+id/coursesID"
+        android:id="@+id/class_list"
         android:name="com.example.collegescheduler.ui.courselist.CoursesFragment"
         android:label="@string/courses_navigation"
         tools:layout="@layout/fragment_courses" />
 
     <fragment
-        android:id="@+id/examListID"
+        android:id="@+id/exams_list"
         android:name="com.example.collegescheduler.ui.examlist.ExamListFragment"
         android:label="@string/exams_navigation"
         tools:layout="@layout/fragment_exam_list" />
