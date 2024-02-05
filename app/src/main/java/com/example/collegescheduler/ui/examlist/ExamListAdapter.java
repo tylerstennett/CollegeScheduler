@@ -1,16 +1,17 @@
 package com.example.collegescheduler.ui.examlist;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Exam;
-import java.util.Collections;
+
 import java.util.List;
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamListViewHolder> {
     private List<Exam> list;
@@ -36,6 +37,14 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         viewHolder.examTime.setText(list.get(position).time);
         viewHolder.examLocation.setText(list.get(position).location);
         viewHolder.examCourse.setText(list.get(position).courseName);
+
+        viewHolder.examDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list.remove(viewHolder.getAbsoluteAdapterPosition());
+                notifyItemRemoved(viewHolder.getAbsoluteAdapterPosition());
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -55,14 +64,18 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         private final TextView examTime;
         private final TextView examLocation;
         private final TextView examCourse;
+        private final ImageButton examDelete;
         private final View view;
         public ExamListViewHolder (View itemView) {
             super(itemView);
+
             examName = (TextView) itemView.findViewById(R.id.examName);
             examDate = (TextView) itemView.findViewById(R.id.examDate);
             examTime = (TextView) itemView.findViewById(R.id.examTime);
             examLocation = (TextView) itemView.findViewById(R.id.examLocation);
             examCourse = (TextView) itemView.findViewById(R.id.examCourse);
+            examDelete = itemView.findViewById(R.id.buttonExamDelete);
+
             view = itemView;
         }
     }
