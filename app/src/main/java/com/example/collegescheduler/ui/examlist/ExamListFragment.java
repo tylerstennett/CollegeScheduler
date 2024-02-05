@@ -43,11 +43,11 @@ public class ExamListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_exam_list, container, false);
 
         // init views
-        editTextExamName = view.findViewById(R.id.editTextExamName);
+        editTextExamName = view.findViewById(R.id.editTextDueDate);
         editTextDate = view.findViewById(R.id.editTextExamDate);
         editTextTime = view.findViewById(R.id.editTextExamTime);
-        editTextLocation = view.findViewById(R.id.editTextExamLocation);
-        editTextClassName = view.findViewById(R.id.editTextExamClass);
+        editTextLocation = view.findViewById(R.id.editTextAssignment);
+        editTextClassName = view.findViewById(R.id.editTextClass);
         inputContainer = view.findViewById(R.id.inputContainer);
         recyclerViewExams = view.findViewById(R.id.recyclerViewExams);
 

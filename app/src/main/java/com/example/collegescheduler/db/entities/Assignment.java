@@ -22,7 +22,7 @@ public class Assignment {
     public String courseName;
     public String username;
 
-    public Assignment(String assignmentName, String dueDate, String courseName, String username) {
+    public Assignment(String assignmentName, String dueDate, String courseName) {
         this.assignmentName = assignmentName;
         this.dueDate = dueDate;
         this.courseName = courseName;

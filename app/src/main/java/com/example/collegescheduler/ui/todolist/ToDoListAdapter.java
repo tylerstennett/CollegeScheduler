@@ -18,11 +18,11 @@ import java.util.List;
 
 
 
-public class CustomAdapter extends ArrayAdapter<String> {
+public class ToDoListAdapter extends ArrayAdapter<String> {
 
     private ArrayList<String> taskList;
 
-    public CustomAdapter(Context context, int resource, List<String> objects, ArrayList<String> taskList) {
+    public ToDoListAdapter(Context context, int resource, List<String> objects, ArrayList<String> taskList) {
         super(context, resource, objects);
         this.taskList = taskList;
     }
@@ -30,7 +30,7 @@ public class CustomAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_layout, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.todolist_item_layout, parent, false);
         }
 
         // Get the task item
