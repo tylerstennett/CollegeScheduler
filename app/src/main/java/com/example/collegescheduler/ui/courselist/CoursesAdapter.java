@@ -37,6 +37,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseTime.setText(list.get(position).courseTime);
         viewHolder.courseLocation.setText(list.get(position).location);
         viewHolder.courseInstructor.setText(list.get(position).professor);
+        viewHolder.courseSection.setText(list.get(position).section);
     }
 
     @Override
