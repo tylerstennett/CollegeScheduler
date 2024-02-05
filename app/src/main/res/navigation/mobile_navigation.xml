@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_logout" />
 
     <fragment
-        android:id="@+id/class_list"/>
+        android:id="@+id/class_list"
+        android:name="com.example.collegescheduler.ui.courselist.CoursesFragment"
+        android:label="@string/courses_navigation"
+        tools:layout="@layout/fragment_courses" />
 
     <fragment
         android:id="@+id/exams_list"

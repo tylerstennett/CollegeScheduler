@@ -29,6 +29,7 @@
     <string name="password_text">Password</string>
     <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
     <string name="enter_button">Enter</string>
+    <string name="courses_navigation">Courses</string>
     <string name="welcome_header">Welcome!</string>
     <string name="logout_button">Logout</string>
     <string name="logout_navigation">Logout</string>
@@ -46,6 +47,7 @@
         <item>Incomplete</item>
         <item>Complete</item>
     </string-array>
+
 
 
 </resources>
