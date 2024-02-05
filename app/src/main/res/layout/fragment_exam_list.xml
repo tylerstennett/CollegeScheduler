@@ -9,10 +9,10 @@
     tools:context=".ui.examlist.ExamListFragment">
 
     <TextView
-        android:id="@+id/exam_list_header"
+        android:id="@+id/assignments_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/exam_list_header"
+        android:text="@string/assignments_header"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -41,10 +41,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exam_list_header">
+        app:layout_constraintTop_toBottomOf="@id/assignments_header">
 
         <EditText
-            android:id="@+id/editTextExamClass"
+            android:id="@+id/editTextClass"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -53,7 +53,7 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/editTextExamTime"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamName" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
 
         <EditText
             android:id="@+id/editTextExamTime"
@@ -66,13 +66,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/editTextExamDate"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamName" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
 
         <EditText
-            android:id="@+id/editTextExamName"
+            android:id="@+id/editTextDueDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/exam_name_hint"
+            android:hint="@string/due_date"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,14 +88,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamName" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
 
         <EditText
-            android:id="@+id/editTextExamLocation"
+            android:id="@+id/editTextAssignment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/exam_location_hint"
+            android:hint="@string/assignment_name"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +110,7 @@
             android:text="Add"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextExamLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextAssignment" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

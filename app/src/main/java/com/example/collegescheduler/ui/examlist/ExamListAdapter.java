@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -23,6 +24,7 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
     }
 
     // creates new exam views
+    @NonNull
     @Override
     public ExamListViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new Exam view

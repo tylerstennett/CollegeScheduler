@@ -9,12 +9,12 @@
     <string name="assignments_navigation">Assignments</string>
     <string name="exams_navigation">Exams</string>
 
-    <string name="exam_list_header">Exam List</string>
+    <string name="assignments_header">Assignments List</string>
     <string name="class_name">Class Name</string>
     <string name="sample_time">12:00</string>
-    <string name="exam_name_hint">Exam Name</string>
+    <string name="due_date">Due Date (MM/DD/YYYY)</string>
     <string name="sample_date">01/01/2024</string>
-    <string name="exam_location_hint">Exam Location</string>
+    <string name="assignment_name">Assignment</string>
 
     <string name="todo_navigation">To-do List</string>
     <string name="assignmentsList">Assignments List</string>
@@ -26,6 +26,23 @@
     <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
     <string name="enter_button">Enter</string>
     <string name="courses_navigation">Courses</string>
+    <string name="welcome_header">Welcome!</string>
+    <string name="logout_button">Logout</string>
+
+
+    <string-array name="assignmentSort">
+        <item>Due Date</item>
+        <item>Class</item>
+        <item>Incomplete</item>
+        <item>Complete</item>
+    </string-array>
+
+    <string-array name="toDoListSort">
+        <item>Due Date</item>
+        <item>Incomplete</item>
+        <item>Complete</item>
+    </string-array>
+
 
 
 </resources>

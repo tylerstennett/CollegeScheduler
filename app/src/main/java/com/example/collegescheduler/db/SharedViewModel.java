@@ -34,19 +34,21 @@ public class SharedViewModel extends AndroidViewModel {
 
     public SharedViewModel(Application application) {
         super(application);
-        assignmentRepository = new AssignmentRepository(application);
-        courseRepository = new CourseRepository(application);
-        examRepository = new ExamRepository(application);
-        todoItemRepository = new TodoItemRepository(application);
-        userRepository = new UserRepository(application);
+        this.assignmentRepository = new AssignmentRepository(application);
+        this.courseRepository = new CourseRepository(application);
+        this.examRepository = new ExamRepository(application);
+        this.todoItemRepository = new TodoItemRepository(application);
+        this.userRepository = new UserRepository(application);
     }
 
     // getters and setters for the shared username value; not to be confused with actual queries
-    public String getUsernameValue() {
-        return username.getValue();
+
+
+    public LiveData<String> getUsernameData() {
+        return this.username;
     }
     public void setUsernameValue(String usernameValue) {
-        username.setValue(usernameValue);
+        this.username.setValue(usernameValue);
     }
 
     // functions for assignments
@@ -83,6 +85,15 @@ public class SharedViewModel extends AndroidViewModel {
         courseRepository.deleteCourse(course);
     }
 
+    // functions for exams
+    public LiveData<List<Exam>> getExamsByUsername(String username) {
+        return examRepository.getExamsByUsername(username);
+    }
+    public void insertExam(Exam exam) {
+        examRepository.insertExam(exam).thenAccept(insertExamId::postValue);
+    }
+
+    // functions for user
     public LiveData<User> getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
     }

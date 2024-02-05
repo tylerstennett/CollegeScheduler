@@ -3,17 +3,17 @@ package com.example.collegescheduler.ui.todolist;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class ToDoListFragment extends Fragment {
     private Button buttonAddTask;
     private ListView listViewTasks;
     private ArrayList<String> taskList;
-    private CustomAdapter adapter;
+    private ToDoListAdapter adapter;
     private int selectedItemPosition = -1; // Initialize as -1 indicating no selected item
 
     // TODO: Rename and change types of parameters
@@ -79,6 +79,20 @@ public class ToDoListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_todolist, container, false);
 
+
+
+
+        Spinner toDoListSortSpinner = view.findViewById(R.id.toDoListSort);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter sortAdapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.toDoListSort, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        toDoListSortSpinner.setAdapter(sortAdapter);
+
+
+
         editTextTask = view.findViewById(R.id.editTextTask);
         editTextTaskDetail = view.findViewById(R.id.editTextTaskDetail);
         buttonAddTask = view.findViewById(R.id.buttonAddTask);
@@ -87,19 +101,8 @@ public class ToDoListFragment extends Fragment {
 
         // Initialize taskList and adapter
         taskList = new ArrayList<>();
-        adapter = new CustomAdapter(requireContext(), android.R.layout.simple_list_item_2, taskList, taskList);
+        adapter = new ToDoListAdapter(requireContext(), android.R.layout.simple_list_item_2, taskList, taskList);
         listViewTasks.setAdapter(adapter);
-
-
-//
-//
-//        Button buttonEditTask = view.findViewById(R.id.buttonEditTask);
-//        buttonEditTask.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                editTask();
-//            }
-//        });
 
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,33 +113,6 @@ public class ToDoListFragment extends Fragment {
 
         return view;
 
-    }
-
-    private void editTask() {
-        // Get the edited task details from the EditText
-        String editedTaskDetail = editTextTaskDetail.getText().toString();
-
-        // Ensure that the taskList is not empty and there is a selected task to edit
-        if (!taskList.isEmpty() && selectedItemPosition >= 0 && selectedItemPosition < taskList.size()) {
-            // Update the selected task's details in the list
-            String currentTask = taskList.get(selectedItemPosition);
-            // Parse the currentTask string and update the details
-            // For example, if your task details are separated by "\n", you can do something like this:
-            String[] taskDetailsArray = currentTask.split("\n");
-            if (taskDetailsArray.length >= 2) {
-                taskDetailsArray[1] = "Details: " + editedTaskDetail;
-                // Join the updated details back into a single string
-                String updatedTask = taskDetailsArray[0] + "\n" + taskDetailsArray[1];
-                // Update the task in the list
-                taskList.set(selectedItemPosition, updatedTask);
-                // Notify the adapter of the data change
-                adapter.notifyDataSetChanged();
-                // Clear the EditText
-                editTextTaskDetail.getText().clear();
-                // Reset the selected item position
-                selectedItemPosition = -1;
-            }
-        }
     }
 
     private void addTaskToList() {
