@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_logout" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.collegescheduler.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
         android:id="@+id/class_list"
         android:name="com.example.collegescheduler.ui.courselist.CoursesFragment"
         android:label="@string/courses_navigation"
