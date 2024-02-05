@@ -21,7 +21,13 @@
         android:id="@+id/navigation_notifications"
         android:name="com.example.collegescheduler.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />m
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/coursesID"
+        android:name="com.example.collegescheduler.ui.courselist.CoursesFragment"
+        android:label="@string/courses_navigation"
+        tools:layout="@layout/fragment_courses" />
 
     <fragment
         android:id="@+id/examListID"

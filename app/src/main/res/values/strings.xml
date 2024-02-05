@@ -25,6 +25,7 @@
     <string name="password_text">Password</string>
     <string name="login_prompt">Please remember your login information.\nThere are no account recovery procedures.</string>
     <string name="enter_button">Enter</string>
+    <string name="courses_navigation">Courses</string>
 
 
 </resources>

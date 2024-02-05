@@ -19,6 +19,7 @@
         -->
 
     <item
+        android:id="@+id/coursesID"
         android:icon="@drawable/classes_icon"
         android:title="@string/classes_navigation"/>
 
