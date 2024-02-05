@@ -1,5 +1,4 @@
 package com.example.collegescheduler.ui.examlist;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -36,7 +34,6 @@ public class ExamListFragment extends Fragment {
     private RecyclerView recyclerViewExams;
     private ExamListAdapter examListAdapter;
     List<Exam> list;
-
     public static ExamListFragment newInstance() {
         return new ExamListFragment();
     }
@@ -60,19 +57,16 @@ public class ExamListFragment extends Fragment {
         this.username = sharedViewModel.getUsernameData().getValue();
 
         // init views
-        editTextExamName = view.findViewById(R.id.editTextDueDate);
+        editTextExamName = view.findViewById(R.id.editTextExamName);
         editTextDate = view.findViewById(R.id.editTextExamDate);
         editTextTime = view.findViewById(R.id.editTextExamTime);
-        editTextLocation = view.findViewById(R.id.editTextAssignment);
-        editTextClassName = view.findViewById(R.id.editTextClass);
+        editTextLocation = view.findViewById(R.id.editTextExamLocation);
+        editTextClassName = view.findViewById(R.id.editTextExamClass);
         inputContainer = view.findViewById(R.id.inputContainer);
         recyclerViewExams = view.findViewById(R.id.recyclerViewExams);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewExams.setLayoutManager(layoutManager);
-
         list = new ArrayList<Exam>();
-
         examListAdapter = new ExamListAdapter(list);
         recyclerViewExams.setAdapter(examListAdapter);
 
@@ -106,7 +100,6 @@ public class ExamListFragment extends Fragment {
         String examTime = editTextTime.getText().toString();
         String examLocation = editTextLocation.getText().toString();
         String examClassName = editTextClassName.getText().toString();
-
         // create new exam card
         // View examView = createExamView(examName, examDate, examTime, examLocation, examClassName);
 
@@ -123,24 +116,19 @@ public class ExamListFragment extends Fragment {
         editTextLocation.getText().clear();
         editTextClassName.getText().clear();
     }
-
     private View createExamView(String examName, String examDate, String examTime,
                                 String examLocation, String examClassName) {
-
         View examView = getLayoutInflater().inflate(R.layout.exam_entry, null);
-
         TextView textViewExamName = examView.findViewById(R.id.examName);
         TextView textViewExamDate = examView.findViewById(R.id.examDate);
         TextView textViewExamTime = examView.findViewById(R.id.examTime);
         TextView textViewExamLocation = examView.findViewById(R.id.examLocation);
         TextView textViewExamClassName = examView.findViewById(R.id.examCourse);
-
         textViewExamName.setText(examName);
         textViewExamDate.setText(examDate);
         textViewExamTime.setText(examTime);
         textViewExamLocation.setText(examLocation);
         textViewExamClassName.setText(examClassName);
-
         return examView;
     }
 }
