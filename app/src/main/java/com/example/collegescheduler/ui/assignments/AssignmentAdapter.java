@@ -46,9 +46,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     @Override
     public void onBindViewHolder(AssignmentViewHolder viewHolder, int position) {
 
-        viewHolder.assignmentDueDate.setText("Due Date: " + list.get(position).dueDate);
-        viewHolder.assignmentClass.setText("Class: " + list.get(position).courseName);
         viewHolder.assignmentAssignment.setText("Assignment: " + list.get(position).assignmentName);
+        viewHolder.assignmentClass.setText("Class: " + list.get(position).courseName);
+        viewHolder.assignmentDueDate.setText("Due Date: " + list.get(position).dueDate);
 
         // make sure not to prompt CheckedChangeListener
         viewHolder.assignmentCompleted.setOnCheckedChangeListener(null);

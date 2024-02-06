@@ -33,7 +33,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inputContainer"
         android:layout_width="match_parent"
-        android:layout_height="205dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
@@ -43,66 +43,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/assignments_header">
 
+        <!-- Assignment -->
         <EditText
-            android:id="@+id/editTextClass"
+            android:id="@+id/editTextAssignment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/class_name"
+            android:hint="@string/assignment_name"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/editTextAssignment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
-
-        <EditText
-            android:id="@+id/editTextDueDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/due_date"
-            android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/editTextClass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Class -->
+
+        <!-- Due Date -->
         <EditText
-            android:id="@+id/editTextAssignment"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextClass"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/assignment_name"
+            android:hint="@string/class_name"
             android:inputType="text"
-            app:layout_constraintBottom_toTopOf="@+id/addButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAssignment" />
+
+        <EditText
+            android:id="@+id/editTextDueDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/due_date"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextClass" />
+
+        <!-- Add Button -->
+
+        <!-- Assignment Sort Spinner -->
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginTop="8dp"
+            android:onClick="onAddButtonClick"
+            android:text="Add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
 
         <Spinner
             android:id="@+id/assignmentSort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="49dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="52dp"
             android:popupBackground="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/addButton"
-            app:layout_constraintTop_toBottomOf="@+id/editTextAssignment" />
-
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="8dp"
-            android:onClick="onAddButtonClick"
-            android:text="Add"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextAssignment" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDueDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
