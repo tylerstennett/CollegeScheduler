@@ -7,5 +7,5 @@ public interface TodoListDatabase {
     void updateTodoItemInDatabase(TodoItem todoItem);
     void updateTodoItemWithText(TodoItem todoItem);
     void deleteTodoItemInDatabase(TodoItem todoItem);
-    void updateTodoItemCompleted(TodoItem todoItem);
+    void updateTodoItemCompleted(boolean completed, TodoItem todoItem);
 }
