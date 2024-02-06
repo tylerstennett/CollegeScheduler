@@ -48,7 +48,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ToDoLi
                 int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     TodoItem taskToEdit = list.get(adapterPosition);
-                    todoListDatabase.updateTodoItemInDatabase(taskToEdit);
+                    todoListDatabase.updateTodoItemCompleted(isChecked, taskToEdit);
                 }
             }
         });
@@ -95,9 +95,9 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ToDoLi
         notifyItemInserted(list.size());
     }
 
-    public void addToDoList(List<TodoItem> tasks) {
+    public void addToDoList(List<TodoItem> todoItems) {
         this.list.clear();
-        this.list.addAll(tasks);
+        this.list.addAll(todoItems);
         notifyDataSetChanged();
     }
 

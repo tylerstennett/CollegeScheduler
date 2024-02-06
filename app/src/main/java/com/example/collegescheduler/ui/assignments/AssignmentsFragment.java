@@ -88,8 +88,6 @@ public class AssignmentsFragment extends Fragment implements AssignmentDatabase 
         recyclerViewAssignments.setAdapter(assignmentAdapter);
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isInitialization) {
@@ -168,7 +166,7 @@ public class AssignmentsFragment extends Fragment implements AssignmentDatabase 
     @Override
     public void updateAssignmentCompleted(boolean completed, Assignment assignment) {
         assignment.completed = completed;
-        sharedViewModel.updateAssignment(assignment);
+        this.updateAssignmentInDatabase(assignment);
     }
 
     @Override

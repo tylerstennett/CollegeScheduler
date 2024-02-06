@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.collegescheduler.db.entities.Assignment;
 import com.example.collegescheduler.db.entities.Course;
 import com.example.collegescheduler.db.entities.Exam;
+import com.example.collegescheduler.db.entities.TodoItem;
 import com.example.collegescheduler.db.entities.User;
 import com.example.collegescheduler.db.repositories.AssignmentRepository;
 import com.example.collegescheduler.db.repositories.CourseRepository;
@@ -50,7 +51,7 @@ public class SharedViewModel extends AndroidViewModel {
     }
 
     // functions for assignments
-    public LiveData<List<Assignment>> getToDoListTasksByUsername(String username) {
+    public LiveData<List<Assignment>> getAssignmentsByUsername(String username) {
         return assignmentRepository.getAssignmentsByUsername(username);
     }
     public LiveData<Long> getInsertAssignmentId() {
@@ -93,6 +94,21 @@ public class SharedViewModel extends AndroidViewModel {
     public void deleteExam(Exam exam) {
         examRepository.deleteExam(exam);
     }
+
+    // functions for todolist
+    public LiveData<List<TodoItem>> getTodoItemsByUsername(String username) {
+        return todoItemRepository.getTodoItemsByUsername(username);
+    }
+    public void insertTodoItem(TodoItem todoItem) {
+        todoItemRepository.insertTodoItem(todoItem);
+    }
+    public void deleteTodoItem(TodoItem todoItem) {
+        todoItemRepository.deleteTodoItem(todoItem);
+    }
+    public void updateTodoItem(TodoItem todoItem) {
+        todoItemRepository.updateTodoItem(todoItem);
+    }
+
 
     // functions for user
     public LiveData<User> getUserByUsername(String username) {

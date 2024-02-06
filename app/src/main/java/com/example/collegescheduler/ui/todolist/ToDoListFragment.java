@@ -1,6 +1,7 @@
 package com.example.collegescheduler.ui.todolist;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
+import com.example.collegescheduler.db.entities.Assignment;
 import com.example.collegescheduler.db.entities.TodoItem;
 import com.example.collegescheduler.interfaces.TodoListDatabase;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ToDoListFragment extends Fragment implements TodoListDatabase {
@@ -49,7 +52,6 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_todolist, container, false);
     }
 
@@ -88,12 +90,15 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
                 }
                 Observer<List<TodoItem>> tempObserver = new Observer<List<TodoItem>>() {
                     @Override
-                    public void onChanged(List<TodoItem> tasks) {
-                        if (tasks != null) {
+                    public void onChanged(List<TodoItem> todoItems) {
+                        if (todoItems != null) {
                             String currentSort = parent.getItemAtPosition(position).toString();
+                            determineSortAndAdd(currentSort, todoItems);
+                            sharedViewModel.getTodoItemsByUsername(username).removeObserver(this);
                         }
                     }
                 };
+                sharedViewModel.getTodoItemsByUsername(username).observe(getViewLifecycleOwner(), tempObserver);
             }
 
             @Override
@@ -102,8 +107,9 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
             }
         });
 
-        sharedViewModel.getToDoListTasksByUsername(this.username).observe(getViewLifecycleOwner(), tasks -> {
+        sharedViewModel.getTodoItemsByUsername(this.username).observe(getViewLifecycleOwner(), todoItems -> {
             String currentSort = sortSpinner.getSelectedItem().toString();
+            this.determineSortAndAdd(currentSort, todoItems);
         });
 
         Button addButton = view.findViewById(R.id.addToDoButton);
@@ -120,7 +126,7 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
             return;
         }
 
-        TodoItem task = new TodoItem(toDoTask, toDoTaskDetails);
+        TodoItem task = new TodoItem(toDoTask, toDoTaskDetails, this.username, false);
         this.insertTodoItemToDatabase(task);
 
         resetInputs();
@@ -132,28 +138,70 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
         taskDetailEntry.getText().clear();
     }
 
+    private void determineSortAndAdd(String currentSort, List<TodoItem> todoItems) {
+        if (todoItems != null) {
+            list.clear();
+            Log.i("CHECK LIST", todoItems.toString());
+            switch (currentSort) {
+                case "Due Date":
+                    this.addTodoItemsSortedDueDate(todoItems);
+                    break;
+                case "Incomplete":
+                    this.addTodoItemsSortedIncomplete(todoItems);
+                    break;
+                case "Complete":
+                    this.addTodoItemsSortedComplete(todoItems);
+                    break;
+            }
+        }
+    }
+
+    private void addTodoItemsSortedDueDate(List<TodoItem> todoItems) {
+        todoItems.sort(Comparator.comparing(a -> a.taskDetails));
+        toDoListAdapter.addToDoList(todoItems);
+    }
+
+    private void addTodoItemsSortedComplete(List<TodoItem> todoItems) {
+        todoItems.sort((a1, a2) -> Boolean.compare(a2.completed, a1.completed));
+        toDoListAdapter.addToDoList(todoItems);
+    }
+
+    private void addTodoItemsSortedIncomplete(List<TodoItem> todoItems) {
+        todoItems.sort((a1, a2) -> Boolean.compare(a1.completed, a2.completed));
+        toDoListAdapter.addToDoList(todoItems);
+    }
+
     @Override
     public void insertTodoItemToDatabase(TodoItem todoItem) {
-
+        sharedViewModel.insertTodoItem(todoItem);
     }
 
     @Override
     public void updateTodoItemInDatabase(TodoItem todoItem) {
-
+        sharedViewModel.updateTodoItem(todoItem);
     }
 
     @Override
     public void updateTodoItemWithText(TodoItem todoItem) {
+        String todoName = taskEntry.getText().toString();
+        String todoDetails = taskDetailEntry.getText().toString();
 
+        todoItem.task = todoName;
+        todoItem.taskDetails = todoDetails;
+
+        resetInputs();
+
+        this.updateTodoItemInDatabase(todoItem);
     }
 
     @Override
     public void deleteTodoItemInDatabase(TodoItem todoItem) {
-
+        sharedViewModel.deleteTodoItem(todoItem);
     }
 
     @Override
-    public void updateTodoItemCompleted(TodoItem todoItem) {
-
+    public void updateTodoItemCompleted(boolean completed, TodoItem todoItem) {
+        todoItem.completed = completed;
+        this.updateTodoItemInDatabase(todoItem);
     }
 }
