@@ -27,7 +27,6 @@
     <string name="editTextTaskDetails">Task Details</string>
 
 
-
     <string name="login_header">Login/Register</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
@@ -51,7 +50,6 @@
         <item>Incomplete</item>
         <item>Complete</item>
     </string-array>
-
 
 
 </resources>

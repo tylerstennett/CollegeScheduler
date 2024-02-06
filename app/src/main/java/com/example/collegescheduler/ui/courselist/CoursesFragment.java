@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Course;
-import com.example.collegescheduler.db.entities.Exam;
 import com.example.collegescheduler.interfaces.CourseDatabase;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class CoursesFragment extends Fragment implements CoursesAdapter.EditList
 
         list = new ArrayList<Course>();
 
-        coursesAdapter = new CoursesAdapter(list, this, this);
+        coursesAdapter = new CoursesAdapter(list, this, this, getChildFragmentManager());
         recyclerViewCourses.setAdapter(coursesAdapter);
 
         Button addButton = view.findViewById(R.id.addButtonCourse);
