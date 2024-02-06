@@ -68,6 +68,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
                 int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     Course courseToEdit = list.get(adapterPosition);
+
                     courseDatabase.updateCourseWithText(courseToEdit);
                 }
             }

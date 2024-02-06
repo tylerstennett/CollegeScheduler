@@ -113,12 +113,7 @@ public class CoursesFragment extends Fragment implements CoursesAdapter.EditList
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClick();
-            }
-        });
+        addButton.setOnClickListener(v -> onAddButtonClick());
     }
 
     @Override

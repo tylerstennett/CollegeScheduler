@@ -21,12 +21,14 @@ public class Assignment {
     public String dueDate;
     public String courseName;
     public String username;
+    public boolean completed;
 
-    public Assignment(String assignmentName, String dueDate, String courseName) {
+    public Assignment(String assignmentName, String dueDate, String courseName, String username, boolean completed) {
         this.assignmentName = assignmentName;
         this.dueDate = dueDate;
         this.courseName = courseName;
         this.username = username;
+        this.completed = completed;
     }
 
     public Assignment getAssignment() {
