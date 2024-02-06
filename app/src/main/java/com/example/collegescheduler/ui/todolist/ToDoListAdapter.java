@@ -1,7 +1,6 @@
 package com.example.collegescheduler.ui.todolist;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +11,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.entities.TodoItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+public class ToDoListAdapter extends ArrayAdapter<TodoItem> { // ??
 
-public class ToDoListAdapter extends ArrayAdapter<String> {
+    private List<TodoItem> list;
 
-    private ArrayList<String> taskList;
-
-    public ToDoListAdapter(Context context, int resource, List<String> objects, ArrayList<String> taskList) {
-        super(context, resource, objects);
-        this.taskList = taskList;
+    public ToDoListAdapter() { //
+        //super(context, resource, objects); ??
+        this.list = list;
     }
 
     @Override
@@ -34,7 +33,7 @@ public class ToDoListAdapter extends ArrayAdapter<String> {
         }
 
         // Get the task item
-        String taskItem = getItem(position);
+        //String taskItem = getItem(position);
 
         // Extract task and details from the item (customize this part based on your item format)
         String[] parts = taskItem.split("\n");
@@ -90,7 +89,7 @@ public class ToDoListAdapter extends ArrayAdapter<String> {
             public void onClick(DialogInterface dialog, int which) {
                 // Update the task in the list with the edited details
                 String editedTask = editText.getText().toString();
-                taskList.set(position, editedTask);
+                list.set(position, editedTask);
                 notifyDataSetChanged();
             }
         });

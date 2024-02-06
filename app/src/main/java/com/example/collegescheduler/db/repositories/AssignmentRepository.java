@@ -38,4 +38,5 @@ public class AssignmentRepository {
     public LiveData<List<Assignment>> getAssignmentsByUsername(String username) {
         return assignmentDao.getAssignmentsByUsername(username);
     }
+
 }

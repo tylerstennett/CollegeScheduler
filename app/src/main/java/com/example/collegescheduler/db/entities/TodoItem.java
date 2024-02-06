@@ -20,14 +20,14 @@ public class TodoItem {
     public String itemName;
     public String dueDate;
     public String courseName;
-    public boolean complete;
+    public boolean completed;
     public String username;
 
-    public TodoItem(String itemName, String dueDate, String courseName, boolean complete, String username) {
+    public TodoItem(String itemName, String dueDate, String courseName, boolean completed, String username) {
         this.itemName = itemName;
         this.dueDate = dueDate;
         this.courseName = courseName;
-        this.complete = complete;
+        this.completed = completed;
         this.username = username;
     }
 }

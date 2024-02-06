@@ -2,47 +2,77 @@ package com.example.collegescheduler.ui.assignments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Assignment;
+import com.example.collegescheduler.interfaces.AssignmentDatabase;
+import com.example.collegescheduler.ui.assignments.AssignmentAdapter;
+
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class AssignmentsFragment extends Fragment implements AssignmentAdapter.EditListener {
+public class AssignmentsFragment extends Fragment implements AssignmentDatabase {
+    private SharedViewModel sharedViewModel;
+    private String username;
+
     private EditText assignmentEntry;
     private EditText dueDateEntry;
     private EditText classEntry;
     private ConstraintLayout inputContainer;
     private AssignmentAdapter assignmentAdapter;
     private RecyclerView recyclerViewAssignments;
-    List<Assignment> list;
+    private Spinner sortSpinner;
+    private List<Assignment> list;
     private Context context;
+    private boolean isInitialization = true;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_assignments, container, false);
+        return inflater.inflate(R.layout.fragment_assignments, container, false);
+    }
 
-        Spinner assignmentSortSpinner = view.findViewById(R.id.assignmentSort);
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        this.username = sharedViewModel.getUsernameData().getValue();
+
+        //Spinner assignmentSortSpinner = view.findViewById(R.id.assignmentSort);
+        sortSpinner = view.findViewById(R.id.assignmentSort);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.assignmentSort, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        assignmentSortSpinner.setAdapter(adapter);
+        sortSpinner.setAdapter(adapter);
 
         assignmentEntry = view.findViewById(R.id.editTextAssignment);
         dueDateEntry = view.findViewById(R.id.editTextDueDate);
@@ -53,69 +83,125 @@ public class AssignmentsFragment extends Fragment implements AssignmentAdapter.E
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewAssignments.setLayoutManager(layoutManager);
 
-        list = new ArrayList<>();
+        list = new ArrayList<Assignment>();
         assignmentAdapter = new AssignmentAdapter(list, this);
         recyclerViewAssignments.setAdapter(assignmentAdapter);
 
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isInitialization) {
+                    isInitialization = false;
+                    return;
+                }
+                Observer<List<Assignment>> tempObserver = new Observer<List<Assignment>>() {
+                    @Override
+                    public void onChanged(List<Assignment> assignments) {
+                        if (assignments != null) {
+                            String currentSort = parent.getItemAtPosition(position).toString();
+                            determineSortAndAdd(currentSort, assignments);
+                            sharedViewModel.getAssignmentsByUsername(username).removeObserver(this);
+                        }
+                    }
+                };
+                sharedViewModel.getAssignmentsByUsername(username).observe(getViewLifecycleOwner(), tempObserver);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
+            }
+        });
+
+        sharedViewModel.getAssignmentsByUsername(this.username).observe(getViewLifecycleOwner(), assignments -> {
+            String currentSort = sortSpinner.getSelectedItem().toString();
+            determineSortAndAdd(currentSort, assignments);
+        });
+
         Button addButton = view.findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClick();
-            }
-        });
-        //apart of the sorting attempt
-//        Button sortButton = view.findViewById(R.id.assignmentSort);
-//        sortButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showSortOptionsDialog(); // You can implement a dialog to select the sort field
-//            }
-//        });
-        return view;
+        addButton.setOnClickListener(v -> onAddButtonClick());
+
     }
 
-    public void onEditButtonClick(int position) {
-        LayoutInflater inflater = LayoutInflater.from(this.context);
-        View popupView = inflater.inflate(R.layout.edit_assignment_dialog, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
-        builder.setView(popupView);
-
-        final EditText dueDateEntry = popupView.findViewById(R.id.editButtonDueDate);
-        final EditText classEntry = popupView.findViewById(R.id.editButtonClass);
-        final EditText assignmentEntry = popupView.findViewById(R.id.editButtonAssignment);
-        Button submitButton = popupView.findViewById(R.id.submitButtonAssignment);
-
-        // Populate the dialog fields based on the selected position
-        Assignment selectedAssignment = assignmentAdapter.getItem(position);
-        dueDateEntry.setText(selectedAssignment.getDueDate());
-        classEntry.setText(selectedAssignment.getCourseName());
-        assignmentEntry.setText(selectedAssignment.getAssignmentName());
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        // Handle submit button click
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String assignmentDueDate = dueDateEntry.getText().toString();
-                String assignmentClass = classEntry.getText().toString();
-                String assignmentAssignment = assignmentEntry.getText().toString();
-
-                Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
-
-                assignmentAdapter.editItem(assignment, position);
-                resetInputs();
-                assignmentAdapter.showToast("Assignment Edited"); // Show a notification
-                dialog.dismiss();
+    private void determineSortAndAdd(String currentSort, List<Assignment> assignments) {
+        if (assignments != null) {
+            list.clear();
+            switch (currentSort) {
+                case "Due Date":
+                    this.addAssignmentsSortedDueDate(assignments);
+                    break;
+                case "Class":
+                    this.addAssignmentSortedClassName(assignments);
+                    break;
+                case "Incomplete":
+                    this.addAssignmentSortedIncomplete(assignments);
+                    break;
+                case "Complete":
+                    this.addAssignmentSortedComplete(assignments);
+                    break;
             }
-        });
+        }
     }
 
+    private void addAssignmentsSortedDueDate(List<Assignment> assignments) {
+        assignments.sort(Comparator.comparing(a -> a.dueDate));
+        assignmentAdapter.addAssignmentList(assignments);
+    }
 
-    private void onAddButtonClick() {
+    private void addAssignmentSortedClassName(List<Assignment> assignments) {
+        assignments.sort(Comparator.comparing(a -> a.courseName));
+        assignmentAdapter.addAssignmentList(assignments);
+    }
+
+    private void addAssignmentSortedComplete(List<Assignment> assignments) {
+        assignments.sort((a1, a2) -> Boolean.compare(a2.completed, a1.completed));
+        assignmentAdapter.addAssignmentList(assignments);
+    }
+
+    private void addAssignmentSortedIncomplete(List<Assignment> assignments) {
+        assignments.sort((a1, a2) -> Boolean.compare(a1.completed, a2.completed));
+        assignmentAdapter.addAssignmentList(assignments);
+    }
+
+    @Override
+    public void updateAssignmentCompleted(boolean completed, Assignment assignment) {
+        assignment.completed = completed;
+        sharedViewModel.updateAssignment(assignment);
+    }
+
+    @Override
+    public void insertAssignmentToDatabase(Assignment assignment) {
+        sharedViewModel.insertAssignment(assignment);
+    }
+
+    @Override
+    public void updateAssignmentInDatabase(Assignment assignment) {
+        sharedViewModel.updateAssignment(assignment);
+    }
+
+    @Override
+    public void updateAssignmentWithText(Assignment assignment) {
+        String assignmentDueDate = dueDateEntry.getText().toString();
+        String assignmentClass = classEntry.getText().toString();
+        String assignmentAssignment = assignmentEntry.getText().toString();
+
+        assignment.dueDate = assignmentDueDate;
+        assignment.courseName = assignmentClass;
+        assignment.assignmentName = assignmentAssignment;
+
+        resetInputs();
+
+        this.updateAssignmentInDatabase(assignment);
+    }
+
+    @Override
+    public void deleteAssignmentInDatabase(Assignment assignment) {
+        sharedViewModel.deleteAssignment(assignment);
+    }
+
+    private void onAddButtonClick () {
         String assignmentDueDate = dueDateEntry.getText().toString();
         String assignmentClass = classEntry.getText().toString();
         String assignmentAssignment = assignmentEntry.getText().toString();
@@ -125,51 +211,17 @@ public class AssignmentsFragment extends Fragment implements AssignmentAdapter.E
             return;
         }
 
-        Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
-        assignmentAdapter.addItem(assignment);
+        Assignment assignment = new Assignment(assignmentAssignment, assignmentDueDate, assignmentClass, this.username, false);
+        this.insertAssignmentToDatabase(assignment);
+
         resetInputs();
-        }
+    }
 
-        private void resetInputs () {
-            // clear input fields
-            dueDateEntry.getText().clear();
-            classEntry.getText().clear();
-            assignmentEntry.getText().clear();
-        }
+    private void resetInputs () {
+        // clear input fields
+        dueDateEntry.getText().clear();
+        classEntry.getText().clear();
+        assignmentEntry.getText().clear();
+    }
 
-
-            //sorting attempt
-//    private void showSortOptionsDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-//        builder.setTitle("Sort By");
-//
-//        // Array of options for sorting
-//        final String[] sortOptions = {"Due Date", "Class", "Incomplete/Complete"};
-//
-//        // Set up the list of options
-//        builder.setItems(sortOptions, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // Handle the selected sort option
-//                String selectedSortField = sortOptions[which];
-//                if (selectedSortField != null) {
-//                    assignmentAdapter.setSortField(getSortField(selectedSortField)); //in assignment adapter
-//                }
-//            }
-//        });
-//        builder.create().show();
-//    }
-//
-//    // Helper method to map user-friendly labels to actual sort fields
-//    private String getSortField(String sortOption) {
-//        switch (sortOption) {
-//            case "Due Date":
-//                return "dueDate";
-//            case "Class":
-//                return "courseName";
-//            case "Incomplete/Complete":
-//                return "completionStatus";
-//            default:
-//                return null;
-//        }
 }

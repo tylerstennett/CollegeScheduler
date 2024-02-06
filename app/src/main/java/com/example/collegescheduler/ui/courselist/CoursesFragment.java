@@ -12,16 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Course;
+import com.example.collegescheduler.db.entities.Exam;
+import com.example.collegescheduler.interfaces.CourseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoursesFragment extends Fragment implements CoursesAdapter.EditListener {
+public class CoursesFragment extends Fragment implements CoursesAdapter.EditListener, CourseDatabase {
+    private SharedViewModel sharedViewModel;
+    private String username;
 
     private EditText editTextCourseName;
     private EditText editTextTime;
@@ -48,9 +54,22 @@ public class CoursesFragment extends Fragment implements CoursesAdapter.EditList
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_courses, container, false);
+        return inflater.inflate(R.layout.fragment_courses, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        this.username = sharedViewModel.getUsernameData().getValue();
 
         // init views
         editTextCourseName = view.findViewById(R.id.editTextCourseName);
@@ -82,18 +101,56 @@ public class CoursesFragment extends Fragment implements CoursesAdapter.EditList
 
         list = new ArrayList<Course>();
 
-        coursesAdapter = new CoursesAdapter(list, this);
+        coursesAdapter = new CoursesAdapter(list, this, this);
         recyclerViewCourses.setAdapter(coursesAdapter);
 
         Button addButton = view.findViewById(R.id.addButtonCourse);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClick();
+
+        sharedViewModel.getCoursesByUsername(this.username).observe(getViewLifecycleOwner(), courses -> {
+            if (courses != null) {
+                list.clear();
+                coursesAdapter.addCourseList(courses);
             }
         });
 
-        return view;
+        addButton.setOnClickListener(v -> onAddButtonClick());
+    }
+
+    @Override
+    public void addCourseToDatabase(Course course) {
+        sharedViewModel.insertCourse(course);
+    }
+
+    @Override
+    public void deleteCourseFromDatabase(Course course) {
+        sharedViewModel.deleteCourse(course);
+    }
+
+    @Override
+    public void updateCourseWithText(Course course) {
+        String courseName = editTextCourseName.getText().toString();
+        String courseTime = editTextTime.getText().toString();
+        String courseLocation = editTextLocation.getText().toString();
+        String courseInstructor = editTextInstructor.getText().toString();
+        String courseSection = editTextCourseSection.getText().toString();
+        String courseDaysOfWeek = getDaysOfWeek();
+
+        course.username = this.username;
+        course.courseName = courseName;
+        course.courseTime = courseTime;
+        course.daysOfWeek = courseDaysOfWeek;
+        course.professor = courseInstructor;
+        course.section = courseSection;
+        course.location = courseLocation;
+
+        resetInputs();
+
+        this.updateCourseInDatabase(course);
+    }
+
+    @Override
+    public void updateCourseInDatabase(Course course) {
+        sharedViewModel.updateCourse(course);
     }
 
     public void onAddButtonClick() {
@@ -107,13 +164,15 @@ public class CoursesFragment extends Fragment implements CoursesAdapter.EditList
         // create string for days of the week based on checkboxes
         String courseDaysOfWeek = getDaysOfWeek();
 
-        Course course = new Course("", courseName, courseTime, courseDaysOfWeek, courseInstructor, courseSection, courseLocation);
+        Course course = new Course(this.username, courseName, courseTime, courseDaysOfWeek, courseInstructor, courseSection, courseLocation);
+        this.addCourseToDatabase(course);
 
-        coursesAdapter.addItem(course);
+        //coursesAdapter.addItem(course);
 
         resetInputs();
     }
 
+    // discontinued
     public void onEditButtonClick(int position) {
         // Get text from input fields
         String courseName = editTextCourseName.getText().toString();

@@ -10,17 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Course;
+import com.example.collegescheduler.db.entities.Exam;
+import com.example.collegescheduler.interfaces.CourseDatabase;
 
 import java.util.List;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseListViewHolder> {
+    private CourseDatabase courseDatabase;
     private List<Course> list;
     private EditListener editListener;
 
 
-    public CoursesAdapter(List<Course> list, EditListener editListener) {
+    public CoursesAdapter(List<Course> list, EditListener editListener, CourseDatabase courseDatabase) {
         this.list = list;
         this.editListener = editListener;
+        this.courseDatabase = courseDatabase;
     }
 
     // creates new course views
@@ -47,8 +51,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.remove(viewHolder.getAbsoluteAdapterPosition());
-                notifyItemRemoved(viewHolder.getAbsoluteAdapterPosition());
+                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    Course courseToDelete = list.get(adapterPosition);
+                    courseDatabase.deleteCourseFromDatabase(courseToDelete);
+                    // list.remove(adapterPosition); automatically remakes list
+                    // notifyItemRemoved(adapterPosition);
+                }
             }
         });
 
@@ -56,8 +65,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = viewHolder.getAbsoluteAdapterPosition();
-                editListener.onEditButtonClick(position);
+                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    Course courseToEdit = list.get(adapterPosition);
+
+                    courseDatabase.updateCourseWithText(courseToEdit);
+                }
             }
         });
     }
@@ -72,6 +85,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         notifyItemInserted(list.size());
     }
 
+    public void addCourseList(List<Course> courses) {
+        this.list.clear();
+        this.list.addAll(courses);
+        notifyDataSetChanged();
+    }
+
+    // discontinued
     public void editItem(Course newCourse, int position) {
         list.set(position, newCourse);
         notifyItemChanged(position);
@@ -110,6 +130,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         }
     }
 
+    // discontinued
     public interface EditListener {
         void onEditButtonClick(int position);
     }

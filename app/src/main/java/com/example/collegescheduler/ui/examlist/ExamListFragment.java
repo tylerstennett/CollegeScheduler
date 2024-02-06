@@ -1,5 +1,6 @@
 package com.example.collegescheduler.ui.examlist;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Exam;
+import com.example.collegescheduler.interfaces.ExamDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExamListFragment extends Fragment {
+public class ExamListFragment extends Fragment implements ExamDatabase {
     private SharedViewModel sharedViewModel;
     private String username;
 
@@ -67,30 +69,29 @@ public class ExamListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewExams.setLayoutManager(layoutManager);
         list = new ArrayList<Exam>();
-        examListAdapter = new ExamListAdapter(list);
+        examListAdapter = new ExamListAdapter(list, this); // pass this object (implements ExamDatabase) as implementation for database in adapter
         recyclerViewExams.setAdapter(examListAdapter);
 
         Button addButton = view.findViewById(R.id.addButton);
 
         sharedViewModel.getExamsByUsername(this.username).observe(getViewLifecycleOwner(), exams -> {
             if (exams != null) {
-                for (Exam exam : exams) {
-                    list.clear();
-                    examListAdapter.addItem(exam);
-                }
+                list.clear();
+                examListAdapter.addExamList(exams);
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClick();
-            }
-        });
+        addButton.setOnClickListener(v -> onAddButtonClick());
     }
 
-    private void addExamToDatabase(Exam exam) {
+    @Override
+    public void addExamToDatabase(Exam exam) {
         sharedViewModel.insertExam(exam);
+    }
+
+    @Override
+    public void deleteExamFromDatabase(Exam exam) {
+        sharedViewModel.deleteExam(exam);
     }
 
     public void onAddButtonClick() {

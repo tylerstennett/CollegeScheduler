@@ -1,5 +1,6 @@
 package com.example.collegescheduler.ui.examlist;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
+import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Exam;
+import com.example.collegescheduler.interfaces.ExamDatabase;
 
 import java.util.List;
+
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamListViewHolder> {
+    private ExamDatabase examDatabase;
     private List<Exam> list;
     // listener maybe
-    public ExamListAdapter(List<Exam> list) {
+    public ExamListAdapter(List<Exam> list, ExamDatabase examDatabase) {
         this.list = list;
+        this.examDatabase = examDatabase;
     }
 
     // creates new exam views
@@ -29,6 +35,9 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         // return ViewHolder with new ExamView
         return new ExamListViewHolder(view);
     }
+
+
+
     // replace contents of a view
     @Override
     public void onBindViewHolder(ExamListViewHolder viewHolder, final int position) {
@@ -41,8 +50,13 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
         viewHolder.examDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.remove(viewHolder.getAbsoluteAdapterPosition());
-                notifyItemRemoved(viewHolder.getAbsoluteAdapterPosition());
+                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    Exam examToDelete = list.get(adapterPosition);
+                    examDatabase.deleteExamFromDatabase(examToDelete);
+                    // list.remove(adapterPosition); automatically remakes list anyways
+                    // notifyItemRemoved(adapterPosition);
+                }
             }
         });
     }
@@ -52,8 +66,15 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
     }
     public void addItem(Exam newExam) {
         list.add(newExam);
-        notifyItemInserted(list.size());
+        notifyItemInserted(list.size() - 1);
     }
+
+    public void addExamList(List<Exam> exams) {
+        this.list.clear();
+        this.list.addAll(exams);
+        notifyDataSetChanged();
+    }
+
     /*
     ViewHolder that caches references to entries in RecyclerView,
     improving performance over looking up ID every time
