@@ -81,12 +81,7 @@ public class ExamListFragment extends Fragment implements ExamDatabase {
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClick();
-            }
-        });
+        addButton.setOnClickListener(v -> onAddButtonClick());
     }
 
     @Override

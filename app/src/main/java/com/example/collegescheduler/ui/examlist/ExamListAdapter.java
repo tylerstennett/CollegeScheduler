@@ -54,8 +54,8 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamLi
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     Exam examToDelete = list.get(adapterPosition);
                     examDatabase.deleteExamFromDatabase(examToDelete);
-                    list.remove(adapterPosition);
-                    notifyItemRemoved(adapterPosition);
+                    // list.remove(adapterPosition); automatically remakes list anyways
+                    // notifyItemRemoved(adapterPosition);
                 }
             }
         });
