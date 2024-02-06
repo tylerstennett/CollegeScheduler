@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Assignment;
@@ -33,7 +35,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     // creates new exam views
     @Override
     public AssignmentViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new Exam view
+        
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.assignment_add_on, viewGroup, false);
         // return ViewHolder with new assignmentView
 
@@ -93,6 +95,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         list.set(position, newAssignment);
         notifyItemChanged(position);
     }
+
 
     @Override
     public int getItemCount() {
