@@ -1,4 +1,5 @@
 package com.example.collegescheduler.ui.assignments;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Assignment;
-import com.example.collegescheduler.ui.assignments.AssignmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,6 @@ public class AssignmentsFragment extends Fragment implements AssignmentAdapter.E
                 onAddButtonClick();
             }
         });
-
         //apart of the sorting attempt
 //        Button sortButton = view.findViewById(R.id.assignmentSort);
 //        sortButton.setOnClickListener(new View.OnClickListener() {
@@ -76,31 +75,59 @@ public class AssignmentsFragment extends Fragment implements AssignmentAdapter.E
         return view;
     }
 
-        public void onEditButtonClick ( int position){
-            // Get text from input fields
-            String assignmentDueDate = dueDateEntry.getText().toString();
-            String assignmentClass = classEntry.getText().toString();
-            String assignmentAssignment = assignmentEntry.getText().toString();
+    public void onEditButtonClick(int position) {
+        LayoutInflater inflater = LayoutInflater.from(this.context);
+        View popupView = inflater.inflate(R.layout.edit_assignment_dialog, null);
 
-            Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+        builder.setView(popupView);
 
-            assignmentAdapter.editItem(assignment, position);
+        final EditText dueDateEntry = popupView.findViewById(R.id.editButtonDueDate);
+        final EditText classEntry = popupView.findViewById(R.id.editButtonClass);
+        final EditText assignmentEntry = popupView.findViewById(R.id.editButtonAssignment);
+        Button submitButton = popupView.findViewById(R.id.submitButtonAssignment);
 
-            resetInputs();
+        // Populate the dialog fields based on the selected position
+        Assignment selectedAssignment = assignmentAdapter.getItem(position);
+        dueDateEntry.setText(selectedAssignment.getDueDate());
+        classEntry.setText(selectedAssignment.getCourseName());
+        assignmentEntry.setText(selectedAssignment.getAssignmentName());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Handle submit button click
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String assignmentDueDate = dueDateEntry.getText().toString();
+                String assignmentClass = classEntry.getText().toString();
+                String assignmentAssignment = assignmentEntry.getText().toString();
+
+                Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
+
+                assignmentAdapter.editItem(assignment, position);
+                resetInputs();
+                assignmentAdapter.showToast("Assignment Edited"); // Show a notification
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    private void onAddButtonClick() {
+        String assignmentDueDate = dueDateEntry.getText().toString();
+        String assignmentClass = classEntry.getText().toString();
+        String assignmentAssignment = assignmentEntry.getText().toString();
+
+        if (assignmentDueDate.isEmpty() || assignmentClass.isEmpty() || assignmentAssignment.isEmpty()) {
+            Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        private void onAddButtonClick () {
-            String assignmentDueDate = dueDateEntry.getText().toString();
-            String assignmentClass = classEntry.getText().toString();
-            String assignmentAssignment = assignmentEntry.getText().toString();
-
-            if (assignmentDueDate.isEmpty() || assignmentClass.isEmpty() || assignmentAssignment.isEmpty()) {
-                Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
-                return;
-             }
-            Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
-            assignmentAdapter.addItem(assignment);
-            resetInputs();
+        Assignment assignment = new Assignment(assignmentDueDate, assignmentClass, assignmentAssignment);
+        assignmentAdapter.addItem(assignment);
+        resetInputs();
         }
 
         private void resetInputs () {
