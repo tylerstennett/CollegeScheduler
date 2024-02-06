@@ -6,25 +6,27 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Course;
-import com.example.collegescheduler.db.entities.Exam;
 import com.example.collegescheduler.interfaces.CourseDatabase;
 
 import java.util.List;
 
-public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseListViewHolder> {
+public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseListViewHolder> implements CourseConfirmDialog.ConfirmationDialogListener {
     private CourseDatabase courseDatabase;
     private List<Course> list;
     private EditListener editListener;
+    private FragmentManager fragmentManager;
 
 
-    public CoursesAdapter(List<Course> list, EditListener editListener, CourseDatabase courseDatabase) {
+    public CoursesAdapter(List<Course> list, EditListener editListener, CourseDatabase courseDatabase, FragmentManager fragmentManager) {
         this.list = list;
         this.editListener = editListener;
         this.courseDatabase = courseDatabase;
+        this.fragmentManager = fragmentManager;
     }
 
     // creates new course views
@@ -51,13 +53,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    Course courseToDelete = list.get(adapterPosition);
-                    courseDatabase.deleteCourseFromDatabase(courseToDelete);
-                    // list.remove(adapterPosition); automatically remakes list
-                    // notifyItemRemoved(adapterPosition);
-                }
+                CourseConfirmDialog dialog = new CourseConfirmDialog();
+                dialog.setListener(CoursesAdapter.this);
+                dialog.setViewHolder(viewHolder);
+                dialog.setAction("delete");
+                dialog.show(fragmentManager, "ConfirmationDialog");
             }
         });
 
@@ -65,14 +65,39 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseLi
         viewHolder.courseEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    Course courseToEdit = list.get(adapterPosition);
-
-                    courseDatabase.updateCourseWithText(courseToEdit);
-                }
+                CourseConfirmDialog dialog = new CourseConfirmDialog();
+                dialog.setListener(CoursesAdapter.this);
+                dialog.setViewHolder(viewHolder);
+                dialog.setAction("edit");
+                dialog.show(fragmentManager, "ConfirmationDialog");
             }
         });
+    }
+
+    public void onConfirmDelete(CourseListViewHolder viewHolder) {
+        // delete
+        int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+        if (adapterPosition != RecyclerView.NO_POSITION) {
+            Course courseToDelete = list.get(adapterPosition);
+            courseDatabase.deleteCourseFromDatabase(courseToDelete);
+            // list.remove(adapterPosition); automatically remakes list
+            // notifyItemRemoved(adapterPosition);
+        }
+    }
+
+    public void onConfirmEdit(CourseListViewHolder viewHolder) {
+        // edit
+        int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+        if (adapterPosition != RecyclerView.NO_POSITION) {
+            Course courseToEdit = list.get(adapterPosition);
+
+            courseDatabase.updateCourseWithText(courseToEdit);
+        }
+    }
+
+    public void onCancel() {
+        // cancel
+        return;
     }
 
     @Override
