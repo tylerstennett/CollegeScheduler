@@ -5,8 +5,6 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
 import com.example.collegescheduler.db.entities.Assignment;
 import com.example.collegescheduler.db.entities.Course;
@@ -52,7 +50,7 @@ public class SharedViewModel extends AndroidViewModel {
     }
 
     // functions for assignments
-    public LiveData<List<Assignment>> getAssignmentsByUsername(String username) {
+    public LiveData<List<Assignment>> getToDoListTasksByUsername(String username) {
         return assignmentRepository.getAssignmentsByUsername(username);
     }
     public LiveData<Long> getInsertAssignmentId() {

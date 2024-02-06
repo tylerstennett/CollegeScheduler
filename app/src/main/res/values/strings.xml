@@ -16,13 +16,17 @@
     <string name="sample_date">01/01/2024</string>
     <string name="exam_location_hint">Exam Location</string>
 
-    <string name="assignments_header">Assignments List</string>
+    <string name="assignment_header">Assignments List</string>
     <string name="due_date">Due Date (MM/DD/YYYY)</string>
     <string name="assignment_name">Assignment</string>
 
     <string name="todo_navigation">To-do List</string>
     <string name="assignmentsList">Assignments List</string>
     <string name="toDoListID">To-do List</string>
+    <string name="editTextTask">Task</string>
+    <string name="editTextTaskDetails">Task Details</string>
+
+
 
     <string name="login_header">Login/Register</string>
     <string name="username_text">Username</string>

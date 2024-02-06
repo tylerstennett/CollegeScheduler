@@ -6,13 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.examlist.ExamListFragment">
+    tools:context=".ui.assignments.AssignmentsFragment">
 
     <TextView
         android:id="@+id/assignments_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/assignments_header"
+        android:text="@string/assignment_header"
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"

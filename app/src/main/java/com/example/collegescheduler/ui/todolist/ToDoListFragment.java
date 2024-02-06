@@ -1,56 +1,44 @@
 package com.example.collegescheduler.ui.todolist;
-
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.TodoItem;
 import com.example.collegescheduler.interfaces.TodoListDatabase;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ToDoListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ToDoListFragment extends Fragment implements TodoListDatabase {
     private SharedViewModel sharedViewModel;
     private String username;
 
-    private EditText editTextTask;
-    private EditText editTextTaskDetail;
-    private Button buttonAddTask;
-    private ListView listViewTasks;
-    private List<TodoItem> taskList;
-    private ToDoListAdapter adapter;
-    private int selectedItemPosition = -1; // Initialize as -1 indicating no selected item
-
-
-    public ToDoListFragment() {
-        // Required empty public constructor
-    }
-
-    public static ToDoListFragment newInstance() {
-        return new ToDoListFragment();
-    }
+    private EditText taskEntry;
+    private EditText taskDetailEntry;
+    private ConstraintLayout inputContainer;
+    private ToDoListAdapter toDoListAdapter;
+    private RecyclerView recyclerViewToDoList;
+    private Spinner sortSpinner;
+    private List<TodoItem> list;
+    private Context context;
+    private boolean isInitialization = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,81 +49,111 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_todolist, container, false);
 
+        return inflater.inflate(R.layout.fragment_todolist, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Spinner todoSpinner = view.findViewById(R.id.toDoListSort);
-        ArrayAdapter sortAdapter = ArrayAdapter.createFromResource(requireContext(),
+        this.username = sharedViewModel.getUsernameData().getValue();
+
+        //Spinner assignmentSortSpinner = view.findViewById(R.id.assignmentSort);
+        sortSpinner = view.findViewById(R.id.toDoListSort);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
                 R.array.toDoListSort, android.R.layout.simple_spinner_item);
-        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        todoSpinner.setAdapter(sortAdapter);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
 
-        editTextTask = view.findViewById(R.id.editTextTask);
-        editTextTaskDetail = view.findViewById(R.id.editTextTaskDetail);
-        buttonAddTask = view.findViewById(R.id.buttonAddTask);
-        listViewTasks = view.findViewById(R.id.listViewTasks);
+        taskEntry = view.findViewById(R.id.editTextTask);
+        taskDetailEntry = view.findViewById(R.id.editTextTaskDetails);
+        inputContainer = view.findViewById(R.id.inputToDoContainer);
+        recyclerViewToDoList = view.findViewById(R.id.recyclerViewToDo);
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewToDoList.setLayoutManager(layoutManager);
 
-        // Initialize taskList and adapter
-        taskList = new ArrayList<TodoItem>();
-        //adapter = new ToDoListAdapter(requireContext(), android.R.layout.simple_list_item_2, taskList, taskList);
-        listViewTasks.setAdapter(adapter);
+        list = new ArrayList<TodoItem>();
+        toDoListAdapter = new ToDoListAdapter(list, this);
+        recyclerViewToDoList.setAdapter(toDoListAdapter);
 
-        buttonAddTask.setOnClickListener(new View.OnClickListener() {
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public void onClick(View v) {
-                addTaskToList();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isInitialization) {
+                    isInitialization = false;
+                    return;
+                }
+                Observer<List<TodoItem>> tempObserver = new Observer<List<TodoItem>>() {
+                    @Override
+                    public void onChanged(List<TodoItem> tasks) {
+                        if (tasks != null) {
+                            String currentSort = parent.getItemAtPosition(position).toString();
+                        }
+                    }
+                };
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
             }
         });
-    }
 
-    public void insertTodoItemToDatabase(TodoItem todoItem) {
+        sharedViewModel.getToDoListTasksByUsername(this.username).observe(getViewLifecycleOwner(), tasks -> {
+            String currentSort = sortSpinner.getSelectedItem().toString();
+        });
 
-    }
-    public void updateTodoItemInDatabase(TodoItem todoItem) {
-
-    }
-    public void updateTodoItemWithText(TodoItem todoItem) {
-
-    }
-    public void deleteTodoItemInDatabase(TodoItem todoItem) {
-
-    }
-    public void updateTodoItemCompleted(TodoItem todoItem) {
+        Button addButton = view.findViewById(R.id.addToDoButton);
+        addButton.setOnClickListener(v -> onAddButtonClick());
 
     }
 
-    private void addTaskToList() {
-        String task = editTextTask.getText().toString();
-        String taskDetail = editTextTaskDetail.getText().toString();
-        if (task.isEmpty()) {
+    private void onAddButtonClick () {
+        String toDoTask = taskEntry.getText().toString();
+        String toDoTaskDetails = taskDetailEntry.getText().toString();
+
+        if (toDoTask.isEmpty() || toDoTaskDetails.isEmpty()) {
             Toast.makeText(requireContext(), "All fields must be filled", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Add the task and task detail as a single string with Item1 and Sub Item1
-        //String listItem = "Task: " + task + "\nDetails: " + taskDetail;
-        //taskList.add(listItem);
+        TodoItem task = new TodoItem(toDoTask, toDoTaskDetails);
+        this.insertTodoItemToDatabase(task);
 
-        // Update the adapter and clear the EditText fields
-        adapter.notifyDataSetChanged();
-        editTextTask.getText().clear();
-        editTextTaskDetail.getText().clear();
-
-        hideKeyboard();
+        resetInputs();
     }
 
-    private void hideKeyboard() {
-        View view = requireActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+    private void resetInputs () {
+        // clear input fields
+        taskEntry.getText().clear();
+        taskDetailEntry.getText().clear();
     }
 
+    @Override
+    public void insertTodoItemToDatabase(TodoItem todoItem) {
+
+    }
+
+    @Override
+    public void updateTodoItemInDatabase(TodoItem todoItem) {
+
+    }
+
+    @Override
+    public void updateTodoItemWithText(TodoItem todoItem) {
+
+    }
+
+    @Override
+    public void deleteTodoItemInDatabase(TodoItem todoItem) {
+
+    }
+
+    @Override
+    public void updateTodoItemCompleted(TodoItem todoItem) {
+
+    }
 }

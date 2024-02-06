@@ -15,7 +15,7 @@
 
         <!-- Add a CheckBox -->
         <CheckBox
-            android:id="@+id/checkBoxComplete"
+            android:id="@+id/checkBoxTaskComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -25,7 +25,7 @@
             android:id="@+id/textViewTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/checkBoxComplete"
+            android:layout_toEndOf="@+id/checkBoxTaskComplete"
             android:paddingTop="10dp"
             android:text="Task: "
             android:textSize="20dp"
@@ -37,13 +37,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewTask"
             android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/checkBoxComplete"
+            android:layout_toEndOf="@+id/checkBoxTaskComplete"
             android:text="Details: "
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/buttonEditTask"
+            android:id="@+id/buttonEditToDoTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -51,10 +51,10 @@
             android:text="Edit" />
 
         <Button
-            android:id="@+id/buttonDeleteTask"
+            android:id="@+id/buttonDeleteToDoTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/buttonEditTask"
+            android:layout_below="@+id/buttonEditToDoTask"
             android:layout_alignParentEnd="true"
             android:text="Delete" />
     </RelativeLayout>

@@ -15,19 +15,14 @@ import androidx.room.PrimaryKey;
         indices = {@Index("username")})
 public class TodoItem {
     @PrimaryKey(autoGenerate = true)
-    public int todoItemId;
 
-    public String itemName;
-    public String dueDate;
-    public String courseName;
+    public String task;
+    public String taskDetails;
     public boolean completed;
-    public String username;
 
-    public TodoItem(String itemName, String dueDate, String courseName, boolean completed, String username) {
-        this.itemName = itemName;
-        this.dueDate = dueDate;
-        this.courseName = courseName;
-        this.completed = completed;
-        this.username = username;
+
+    public TodoItem(String task, String taskDetails) {
+        this.task = task;
+        this.taskDetails = taskDetails;
     }
 }
