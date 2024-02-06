@@ -23,12 +23,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private AssignmentsFragment assignmentsFragment;
     private Assignment selectedItem; // Track the selected item
     private TextView infoAssignment;
-    private EditListener editListener;
     private Context context;
 
     public AssignmentAdapter(List<Assignment> list, AssignmentDatabase assignmentDatabase) {
         this.list = list;
-        this.editListener = editListener;
         this.assignmentDatabase = assignmentDatabase;
     }
 
@@ -96,11 +94,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         notifyItemChanged(position);
     }
 
-    public interface EditListener {
-        void onEditButtonClick(int position);
-    }
-
-        @Override
+    @Override
     public int getItemCount() {
         return list.size();
     }
@@ -112,17 +106,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
     public void addAssignmentList(List<Assignment> assignments) {
         this.list.clear();
-        Log.i("ATTEMPTING INSERT ADAPTER", assignments.toString());
         this.list.addAll(assignments);
         notifyDataSetChanged();
     }
-
-
-    //sorting attempt
-//    public void setSortField(String selectedSortField) {
-//    }
-
-
 
     public static class AssignmentViewHolder extends RecyclerView.ViewHolder {
 

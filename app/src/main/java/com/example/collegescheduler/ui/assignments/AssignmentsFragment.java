@@ -42,7 +42,7 @@ public class AssignmentsFragment extends Fragment implements AssignmentDatabase 
     private AssignmentAdapter assignmentAdapter;
     private RecyclerView recyclerViewAssignments;
     private Spinner sortSpinner;
-    List<Assignment> list;
+    private List<Assignment> list;
     private Context context;
     private boolean isInitialization = true;
 
@@ -81,7 +81,7 @@ public class AssignmentsFragment extends Fragment implements AssignmentDatabase 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewAssignments.setLayoutManager(layoutManager);
 
-        list = new ArrayList<>();
+        list = new ArrayList<Assignment>();
         assignmentAdapter = new AssignmentAdapter(list, this);
         recyclerViewAssignments.setAdapter(assignmentAdapter);
 
