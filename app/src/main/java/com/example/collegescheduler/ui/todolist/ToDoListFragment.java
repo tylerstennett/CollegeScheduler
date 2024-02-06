@@ -141,7 +141,6 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
     private void determineSortAndAdd(String currentSort, List<TodoItem> todoItems) {
         if (todoItems != null) {
             list.clear();
-            Log.i("CHECK LIST", todoItems.toString());
             switch (currentSort) {
                 case "Due Date":
                     this.addTodoItemsSortedDueDate(todoItems);
