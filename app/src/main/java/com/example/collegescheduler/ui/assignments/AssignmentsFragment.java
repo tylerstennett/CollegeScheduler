@@ -1,8 +1,7 @@
 package com.example.collegescheduler.ui.assignments;
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +24,8 @@ import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
 import com.example.collegescheduler.db.entities.Assignment;
 import com.example.collegescheduler.interfaces.AssignmentDatabase;
-import com.example.collegescheduler.ui.assignments.AssignmentAdapter;
-
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -84,7 +80,7 @@ public class AssignmentsFragment extends Fragment implements AssignmentDatabase 
         recyclerViewAssignments.setLayoutManager(layoutManager);
 
         list = new ArrayList<Assignment>();
-        assignmentAdapter = new AssignmentAdapter(list, this);
+        assignmentAdapter = new AssignmentAdapter(list, this, requireContext());
         recyclerViewAssignments.setAdapter(assignmentAdapter);
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

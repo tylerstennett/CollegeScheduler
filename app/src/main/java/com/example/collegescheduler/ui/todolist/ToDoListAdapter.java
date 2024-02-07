@@ -1,7 +1,6 @@
 package com.example.collegescheduler.ui.todolist;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.TodoItem;
 import com.example.collegescheduler.interfaces.TodoListDatabase;
@@ -22,11 +23,12 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ToDoLi
     private ToDoListFragment toDoListFragment;
     private TodoItem toDoItem; // Track the selected item
     private TextView infoToDo;
-    private Context context;
+    private Context fragmentContext;
 
-    public ToDoListAdapter(List<TodoItem> list, TodoListDatabase todoListDatabase) {
+    public ToDoListAdapter(List<TodoItem> list, TodoListDatabase todoListDatabase, Context fragmentContext) {
         this.list = list;
         this.todoListDatabase = todoListDatabase;
+        this.fragmentContext = fragmentContext;
     }
     @Override
     public ToDoListViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -75,6 +77,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ToDoLi
                     TodoItem taskToEdit = list.get(adapterPosition);
                     todoListDatabase.updateTodoItemWithText(taskToEdit);
                 }
+                Toast.makeText(fragmentContext, "Type edits in the input boxes above, then click edit again.", Toast.LENGTH_SHORT).show();
             }
         });
 

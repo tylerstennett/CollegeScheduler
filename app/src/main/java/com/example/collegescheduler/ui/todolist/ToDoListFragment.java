@@ -1,7 +1,7 @@
 package com.example.collegescheduler.ui.todolist;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.SharedViewModel;
-import com.example.collegescheduler.db.entities.Assignment;
 import com.example.collegescheduler.db.entities.TodoItem;
 import com.example.collegescheduler.interfaces.TodoListDatabase;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -77,7 +77,7 @@ public class ToDoListFragment extends Fragment implements TodoListDatabase {
         recyclerViewToDoList.setLayoutManager(layoutManager);
 
         list = new ArrayList<TodoItem>();
-        toDoListAdapter = new ToDoListAdapter(list, this);
+        toDoListAdapter = new ToDoListAdapter(list, this, requireContext());
         recyclerViewToDoList.setAdapter(toDoListAdapter);
 
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

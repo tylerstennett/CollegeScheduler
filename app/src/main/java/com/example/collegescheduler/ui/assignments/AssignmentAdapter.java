@@ -1,7 +1,6 @@
 package com.example.collegescheduler.ui.assignments;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collegescheduler.R;
 import com.example.collegescheduler.db.entities.Assignment;
-import com.example.collegescheduler.db.entities.Course;
 import com.example.collegescheduler.interfaces.AssignmentDatabase;
-import com.example.collegescheduler.ui.assignments.AssignmentsFragment;
 
 import java.util.List;
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
@@ -25,11 +23,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     private AssignmentsFragment assignmentsFragment;
     private Assignment selectedItem; // Track the selected item
     private TextView infoAssignment;
-    private Context context;
+    private Context fragmentContext;
 
-    public AssignmentAdapter(List<Assignment> list, AssignmentDatabase assignmentDatabase) {
+    public AssignmentAdapter(List<Assignment> list, AssignmentDatabase assignmentDatabase, Context fragmentContext) {
         this.list = list;
         this.assignmentDatabase = assignmentDatabase;
+        this.fragmentContext = fragmentContext;
     }
 
     // creates new exam views
@@ -86,6 +85,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
                     Assignment assignmentToEdit = list.get(adapterPosition);
                     assignmentDatabase.updateAssignmentWithText(assignmentToEdit);
                 }
+                Toast.makeText(fragmentContext, "Type edits in the input boxes above, then click edit again.", Toast.LENGTH_SHORT).show();
             }
         });
 
