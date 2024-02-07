@@ -10,3 +10,5 @@ user interface, we employed the ***Model-View-ViewModel (MVVM)*** architecture.
 
 > [!Important]
 > There is no password recovery or password reset options available. When a username is assigned to a password, it must be accessed through that password.
+
+A demo of the application is available on [Youtube](https://www.youtube.com/watch?v=H2qFutJAriQ), using the Google Pixel 3a emulator.
